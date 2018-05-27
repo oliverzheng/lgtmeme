@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "precommit": "pretty-quick --staged",
+    "precommit": "flow && pretty-quick --staged",
     "types:update": "flow-typed update",
     "start:debug": "babel-node ./src/index.js"
   },
