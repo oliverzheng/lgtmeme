@@ -10,7 +10,7 @@
     "precommit": "flow && pretty-quick --staged",
     "flow:watch": "flow-watch",
     "types:update": "flow-typed update",
-    "start:debug": "babel-node ./src/index.js"
+    "server:debug": "babel-node ./src/server/index.js"
   },
   "dependencies": {
     "mongodb": "^3.1.0-beta4"
