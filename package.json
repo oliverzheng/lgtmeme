@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "precommit": "pretty-quick --staged",
     "types:update": "flow-typed update",
     "start:debug": "babel-node ./src/index.js"
   },
@@ -20,6 +21,8 @@
     "@babel/preset-flow": "^7.0.0-beta.49",
     "flow-bin": "^0.73.0",
     "flow-typed": "^2.4.0",
-    "prettier": "1.12.1"
+    "husky": "^0.14.3",
+    "prettier": "1.12.1",
+    "pretty-quick": "^1.6.0"
   }
 }
