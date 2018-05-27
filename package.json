@@ -1,0 +1,9 @@
+{
+  "name": "lgtmeme",
+  "version": "0.0.1",
+  "description": "u wot m8",
+  "main": "index.js",
+  "author": "Oliver Zheng <gitcommits@oliverzheng.com>",
+  "license": "MIT",
+  "private": true
+}
