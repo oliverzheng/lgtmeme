@@ -6,6 +6,10 @@
   "author": "Oliver Zheng <gitcommits@oliverzheng.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "types:update": "flow-typed update",
+    "start:debug": "babel-node ./src/index.js"
+  },
   "dependencies": {
     "mongodb": "^3.1.0-beta4"
   },
