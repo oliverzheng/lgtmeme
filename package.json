@@ -19,6 +19,7 @@
     "@babel/preset-env": "^7.0.0-beta.49",
     "@babel/preset-flow": "^7.0.0-beta.49",
     "flow-bin": "^0.73.0",
-    "flow-typed": "^2.4.0"
+    "flow-typed": "^2.4.0",
+    "prettier": "1.12.1"
   }
 }
