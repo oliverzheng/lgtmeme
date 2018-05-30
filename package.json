@@ -9,6 +9,7 @@
   "scripts": {
     "precommit": "flow && pretty-quick --staged",
     "flow:watch": "flow-watch",
+    "types:install": "flow-typed install",
     "types:update": "flow-typed update",
     "server:debug": "babel-node ./src/server/index.js"
   },
