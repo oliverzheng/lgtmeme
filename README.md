@@ -2,7 +2,7 @@
 
 ## Running server:
 
-Make sure MongoDB is running. Use something like [adminMongo][adminMongo] to
+Make sure MongoDB is running. Use something like [adminMongo][adminmongo] to
 setup user and database.
 
 Add a `.env` file to the root directory of this repo, with
@@ -31,4 +31,4 @@ constantly check for flow errors.
 Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
 to format files.
 
-[adminMongo]: https://github.com/mrvautin/adminMongo
+[adminmongo]: https://github.com/mrvautin/adminMongo
