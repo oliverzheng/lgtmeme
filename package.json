@@ -12,7 +12,9 @@
     "types:install": "flow-typed install",
     "types:update": "flow-typed update",
     "server:debug": "babel-node ./src/server/index.js",
-    "test": "echo This is fine."
+    "test:flow": "flow",
+    "test:prettier": "prettier -l 'src/**/*.js'",
+    "test": "yarn test:flow && yarn test:prettier"
   },
   "dependencies": {
     "dotenv": "^5.0.1",
