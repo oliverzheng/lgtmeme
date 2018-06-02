@@ -11,7 +11,8 @@
     "flow:watch": "flow-watch",
     "types:install": "flow-typed install",
     "types:update": "flow-typed update",
-    "server:debug": "babel-node ./src/server/index.js"
+    "server:debug": "babel-node ./src/server/index.js",
+    "test": "echo This is fine."
   },
   "dependencies": {
     "dotenv": "^5.0.1",
