@@ -2,6 +2,8 @@
 
 ## Running server:
 
+### From the terminal
+
 Make sure MongoDB is running. Use something like [adminMongo][adminmongo] to
 setup user and database.
 
@@ -23,12 +25,33 @@ yarn install # install dependencies
 yarn server:debug # run debug version of server
 ```
 
-## Developing
+### From Visual Studio Code
 
-Install `flow` typings: `yarn typings:install`. Run `yarn flow:watch` to
-constantly check for flow errors.
+Download and run [Docker for Mac] to host the prerequisite service dependencies, like the Mongo database.
+
+Using [Visual Studio Code], run tasks:
+
+* `docker:mongo` (this runs a mongo server on port 2701)
+* `docker:adminmongo` (this runs the [adminmongo dashboard])
+
+Then use the Debug panel to run `debug:server`.
+
+## Developing
 
 Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
 to format files.
 
+### From the terminal
+
+Install `flow` typings: `yarn typings:install`. Run `yarn flow:watch` to
+constantly check for flow errors.
+
+### From Visual Studio Code
+
+Install the recommended `flow` and `prettier` extensions recommended by [Visual Studio Code]. Flow will run automatically and Prettier will run on file save.
+
+
 [adminmongo]: https://github.com/mrvautin/adminMongo
+[docker for mac]: https://store.docker.com/editions/community/docker-ce-desktop-mac
+[visual studio code]: https://code.visualstudio.com
+[adminmongo dashboard]: http://localhost:1234/app/lgtmeme
