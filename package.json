@@ -11,12 +11,13 @@
     "flow:watch": "flow-watch",
     "types:install": "flow-typed install",
     "types:update": "flow-typed update",
-    "server:debug": "babel-node ./src/server/index.js"
+    "server:debug": "babel-node --inspect ./src/server/index.js"
   },
   "dependencies": {
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "mongodb": "^3.1.0-beta4",
+    "npm": "^6.1.0",
     "nullthrows": "^1.0.1"
   },
   "devDependencies": {

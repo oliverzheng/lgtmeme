@@ -1,0 +1,28 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "server:debug",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+          "run-script", "server:debug"
+      ],
+      "env": {
+        "SERVER_PORT": "3000",
+        "MONGODB_HOST": "127.0.0.1",
+        "MONGODB_PORT": "27017",
+        "MONGODB_USER": "",
+        "MONGODB_PASS": "",
+        "MONGODB_DB": "lgtmeme"
+      },
+      "port": 9229,
+      "internalConsoleOptions": "openOnSessionStart",
+    }
+  ]
+}

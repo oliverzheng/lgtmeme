@@ -2,33 +2,22 @@
 
 ## Running server:
 
-Make sure MongoDB is running. Use something like [adminMongo][adminmongo] to
-setup user and database.
+Download and run [Docker for Mac] to host the prerequisite service dependencies, like the Mongo database.
 
-Add a `.env` file to the root directory of this repo, with
+Using [Visual Studio Code], run tasks:
 
-```
-SERVER_PORT=3000
-MONGODB_HOST=127.0.0.1
-MONGODB_PORT=27017
-MONGODB_USER=<user>
-MONGODB_PASS=<pass>
-MONGODB_DB=<dbname>
-```
+* `docker:mongo` (this runs a mongo server on port 2701)
+* `docker:adminmongo` (this runs the [adminmongo] frontend)
 
-Then run
-
-```
-npm install # install dependencies
-npm run server:debug # run debug version of server
-```
+Then use the Debug panel to run `debug:server`.
 
 ## Developing
 
-Install `flow` typings: `npm run typings:install`. Run `npm run flow:watch` to
-constantly check for flow errors.
+Install the recommended `flow` and `prettier` extensions recommended by [Visual Studio Code].
 
 Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
 to format files.
 
-[adminmongo]: https://github.com/mrvautin/adminMongo
+[Docker for Mac]: https://store.docker.com/editions/community/docker-ce-desktop-mac
+[Visual Studio Code]: https://code.visualstudio.com
+[adminmongo]: http://localhost:1234/app/lgtmeme
