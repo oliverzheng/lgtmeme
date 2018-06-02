@@ -9,10 +9,8 @@
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": [
-          "run-script", "server:debug"
-      ],
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "server:debug"],
       "env": {
         "SERVER_PORT": "3000",
         "MONGODB_HOST": "127.0.0.1",
@@ -21,8 +19,9 @@
         "MONGODB_PASS": "",
         "MONGODB_DB": "lgtmeme"
       },
+      "preLaunchTask": "yarn:install",
       "port": 9229,
-      "internalConsoleOptions": "openOnSessionStart",
+      "internalConsoleOptions": "openOnSessionStart"
     }
   ]
 }

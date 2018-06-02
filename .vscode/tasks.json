@@ -24,16 +24,17 @@
           }
         ],
         "background": {
-            "activeOnStart": false,
-            "beginsPattern": ".*MongoDB starting.*",
-            "endsPattern": ".*waiting for connections on port.*"
+          "activeOnStart": false,
+          "beginsPattern": ".*MongoDB starting.*",
+          "endsPattern": ".*waiting for connections on port.*"
         }
       }
     },
     {
       "label": "docker:adminmongo",
       "type": "shell",
-      "command": "docker run -p 1234:1234 -e CONN_NAME=lgtmeme -e DB_HOST=docker.for.mac.localhost -e DB_NAME=lgtmeme mrvautin/adminmongo",
+      "command":
+        "docker run -p 1234:1234 -e CONN_NAME=lgtmeme -e DB_HOST=docker.for.mac.localhost -e DB_NAME=lgtmeme mrvautin/adminmongo",
       "isBackground": true,
       "presentation": {
         "echo": true,
@@ -42,6 +43,11 @@
         "panel": "dedicated"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "yarn:install",
+      "type": "shell",
+      "command": "yarn install"
     }
   ]
 }
