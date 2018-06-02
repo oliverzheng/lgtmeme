@@ -19,13 +19,13 @@ MONGODB_DB=<dbname>
 Then run
 
 ```
-npm install # install dependencies
-npm run server:debug # run debug version of server
+yarn install # install dependencies
+yarn server:debug # run debug version of server
 ```
 
 ## Developing
 
-Install `flow` typings: `npm run typings:install`. Run `npm run flow:watch` to
+Install `flow` typings: `yarn typings:install`. Run `yarn flow:watch` to
 constantly check for flow errors.
 
 Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
