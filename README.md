@@ -38,20 +38,18 @@ Then use the Debug panel to run `debug:server`.
 
 ## Developing
 
+Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
+to format files.
+
 ### From the terminal
 
 Install `flow` typings: `yarn typings:install`. Run `yarn flow:watch` to
 constantly check for flow errors.
 
-Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
-to format files.
-
 ### From Visual Studio Code
 
-Install the recommended `flow` and `prettier` extensions recommended by [Visual Studio Code].
+Install the recommended `flow` and `prettier` extensions recommended by [Visual Studio Code]. Flow will run automatically and Prettier will run on file save.
 
-Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
-to format files.
 
 [adminmongo]: https://github.com/mrvautin/adminMongo
 [docker for mac]: https://store.docker.com/editions/community/docker-ce-desktop-mac
