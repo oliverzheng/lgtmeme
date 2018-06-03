@@ -7,22 +7,22 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build:chrome":
-      "babel ./src/chrome-extension/ -d ./dist/chrome-extension/ -s --copy-files",
-    "precommit": "yarn test",
+    "build:chrome": "babel ./src/chrome-extension/ -d ./dist/chrome-extension/ -s --copy-files",
+    "precommit": "flow && lint-staged",
     "flow:watch": "flow-watch",
-    "format": "prettier-eslint 'src/**/*.js' --write",
+    "format": "prettier-eslint 'src/**/*.js' --prettier-last --write",
     "jest:watch": "jest --watch",
     "types:install": "flow-typed install",
     "types:update": "flow-typed update",
     "server:debug": "babel-node --inspect ./src/server/index.js",
     "test:flow": "flow",
+    "test:lint": "eslint 'src/**/*.js' --cache",    
     "test:jest": "jest",
-    "test": "yarn test:flow && lint-staged && yarn test:jest"
+    "test": "yarn test:flow && yarn test:lint && yarn test:jest"
   },
   "lint-staged": {
     "*.{js}": [
-      "prettier-eslint --write",
+      "prettier-eslint --prettier-last --write",
       "eslint --cache",
       "git add"
     ]
@@ -51,9 +51,11 @@
     "babel-jest": "^23.0.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.49.3",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "flow-bin": "^0.73.0",
     "flow-typed": "^2.4.0",
     "flow-watch": "^1.1.3",
