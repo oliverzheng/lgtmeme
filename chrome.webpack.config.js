@@ -1,3 +1,7 @@
+// @flow
+// @format
+/* eslint-disable import/no-extraneous-dependencies */
+
 const path = require('path');
 const BabelPluginTransformFlowStripTypes = require('babel-plugin-transform-flow-strip-types');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
