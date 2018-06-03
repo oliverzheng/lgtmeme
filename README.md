@@ -34,7 +34,7 @@ Using [Visual Studio Code], run tasks:
 * `docker:mongo` (this runs a mongo server on port 2701)
 * `docker:adminmongo` (this runs the [adminmongo dashboard])
 
-Then use the Debug panel to run `debug:server`.
+Then use the Debug panel to run `Server`, `Test (all)` or `Test (current)`.
 
 ## Developing server:
 
@@ -43,7 +43,7 @@ to format files.
 
 ### From the terminal
 
-Install `flow` typings: `yarn typings:install`. Run `yarn flow:watch` to
+Install `flow` typings: `yarn types:install`. Run `yarn flow:watch` to
 constantly check for flow errors.
 
 ### From Visual Studio Code
