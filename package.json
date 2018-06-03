@@ -16,14 +16,14 @@
     "types:update": "flow-typed update",
     "server:debug": "babel-node --inspect ./src/server/index.js",
     "test:flow": "flow",
-    "test:lint": "eslint 'src/**/*.js' --cache",    
+    "test:lint": "eslint 'src/**/*.js' --cache --max-warnings=0",    
     "test:jest": "jest",
     "test": "yarn test:flow && yarn test:lint && yarn test:jest"
   },
   "lint-staged": {
-    "*.{js}": [
+    "*.js": [
       "prettier-eslint --prettier-last --write",
-      "eslint --cache",
+      "eslint --cache --max-warnings=0",
       "git add"
     ]
   },
