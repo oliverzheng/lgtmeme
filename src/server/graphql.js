@@ -1,6 +1,7 @@
 // @flow
 // @format
 
+import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
 import {makeExecutableSchema} from 'graphql-tools';
 
 const typeDefs = `
@@ -113,38 +114,47 @@ scalar URI
 
 `;
 
+const idToCollection = {
+  '1': {
+    id: '1',
+  },
+};
+
+const allMemes = [
+  {
+    image: {
+      height: 300,
+      width: 200,
+      url:
+        'https://user-images.githubusercontent.com/526858/40877498-a7df8ec2-6636-11e8-848d-88fd1af1e65f.jpg',
+    },
+    macro: 'ItS SheRAmiE',
+  },
+];
+
 const resolvers = {
   Collection: {
-    memes: (parent, _args) => {
-      return {
-        edges: [
-          {
-            node: {
-              image: {
-                height: 300,
-                width: 200,
-                url:
-                  'https://user-images.githubusercontent.com/526858/40877498-a7df8ec2-6636-11e8-848d-88fd1af1e65f.jpg',
-              },
-              macro: 'ItS SheRAmiE',
-            },
-          },
-        ],
-        pageInfo: {
-          hasNextPage: false,
-          hasPreviousPage: false,
-        },
-      };
+    id: globalIdField(),
+    memes: (_parent, args) => {
+      // FIXME: this should be a Meme repository lookup.
+      return connectionFromArray(allMemes, args);
     },
   },
   Node: {
-    __resolveType(obj, context, info) {
-      return null;
+    __resolveType: (obj, context, info) => {
+      // FIXME: this should be derivable from the object state.
+      return 'Collection';
     },
   },
   Query: {
-    collection: (_parent, _args) => {
-      return {id: 'Collection/1'};
+    collection: (_parent, {slug}) => {
+      // FIXME: this should be a Collection repository lookup.
+      return idToCollection[slug];
+    },
+    node: (_parent, {id}) => {
+      const {type, id: databaseId} = fromGlobalId(id);
+      // FIXME this should be a repository lookup based on type.
+      return idToCollection[databaseId];
     },
   },
 };
@@ -156,7 +166,7 @@ export const schema = makeExecutableSchema({
 
 export const exampleQuery = `
 query CollectionQuery {
-  collection(slug:"") {
+  collection(slug:"1") {
     id
     memes(first:10) {
       edges {
@@ -168,6 +178,7 @@ query CollectionQuery {
             url
           }
         }
+        cursor
       }
       pageInfo {
         hasNextPage
