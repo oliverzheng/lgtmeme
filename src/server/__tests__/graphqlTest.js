@@ -8,10 +8,11 @@ test('validates fixture query', () => {
   const expectedExecutionResult = {
     data: {
       collection: {
-        id: 'Collection/1',
+        id: 'Q29sbGVjdGlvbjox',
         memes: {
           edges: [
             {
+              cursor: 'YXJyYXljb25uZWN0aW9uOjA=',
               node: {
                 image: {
                   height: 300,
