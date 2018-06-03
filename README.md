@@ -36,7 +36,7 @@ Using [Visual Studio Code], run tasks:
 
 Then use the Debug panel to run `debug:server`.
 
-## Developing
+## Developing server:
 
 Precommit hooks are auto enabled to check for `flow` errors and use `prettier`
 to format files.
@@ -50,8 +50,20 @@ constantly check for flow errors.
 
 Install the recommended `flow` and `prettier` extensions recommended by [Visual Studio Code]. Flow will run automatically and Prettier will run on file save.
 
+## Developing Chrome Extension:
+
+After building the extension, load `dist/chrome-extension` from [Chrome Extensions] with _Developer Mode_ enabled. On every build, refresh the extension in the Extensions panel to apply the new build.
+
+### From the terminal
+
+Run `yarn build:chrome`.
+
+### From Visual Studio Code
+
+Run task `npm: build:chrome`.
 
 [adminmongo]: https://github.com/mrvautin/adminMongo
 [docker for mac]: https://store.docker.com/editions/community/docker-ce-desktop-mac
 [visual studio code]: https://code.visualstudio.com
 [adminmongo dashboard]: http://localhost:1234/app/lgtmeme
+[chrome extensions]: chrome://extensions/

@@ -7,6 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "build:chrome":
+      "babel ./src/chrome-extension/ -d ./dist/chrome-extension/ -s --copy-files",
     "precommit": "flow && pretty-quick --staged",
     "flow:watch": "flow-watch",
     "types:install": "flow-typed install",
@@ -31,6 +33,7 @@
     "@babel/node": "^7.0.0-beta.49",
     "@babel/preset-env": "^7.0.0-beta.49",
     "@babel/preset-flow": "^7.0.0-beta.49",
+    "@babel/cli": "^7.0.0-beta.49",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^23.0.1",
     "flow-bin": "^0.73.0",
