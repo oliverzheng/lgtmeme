@@ -14,7 +14,7 @@ type Query {
   # Find a collection by its URL segment.
   collection(
     # The URL segment uniquely identifying the collection.
-    slug: String
+    slug: String!
   ): Collection
 
   # Find an entity by its global id.
