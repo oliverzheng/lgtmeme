@@ -4,7 +4,7 @@
 import {graphql} from 'graphql';
 import {exampleQuery, schema} from '../graphql';
 
-test('validates fixture query', () => {
+test('validates fixture query', async () => {
   const expectedExecutionResult = {
     data: {
       collection: {
@@ -29,7 +29,6 @@ test('validates fixture query', () => {
       },
     },
   };
-  expect(graphql(schema, exampleQuery)).resolves.toEqual(
-    expectedExecutionResult,
-  );
+  const actualExecutionResult = await graphql(schema, exampleQuery);
+  expect(actualExecutionResult).toEqual(expectedExecutionResult);
 });
