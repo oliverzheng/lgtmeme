@@ -1,7 +1,7 @@
 // @flow
 // @format
 
-import {MongoClient} from 'mongodb';
+import { MongoClient } from 'mongodb';
 import assert from 'assert';
 
 import {
@@ -17,7 +17,7 @@ export const urlWithoutPassword = `mongodb:\/\/${MONGODB_USER}@${MONGODB_HOST}:$
 
 export async function connect(): Promise<void> {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
+    MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
       if (err) {
         return reject(err);
       }

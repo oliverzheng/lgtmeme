@@ -1,8 +1,8 @@
 // @flow
 // @format
 
-import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
-import {makeExecutableSchema} from 'graphql-tools';
+import { connectionFromArray, fromGlobalId, globalIdField } from 'graphql-relay';
+import { makeExecutableSchema } from 'graphql-tools';
 
 const typeDefs = `
 
@@ -135,24 +135,21 @@ const allMemes = [
 const resolvers = {
   Collection: {
     id: globalIdField(),
-    memes: (_parent, args) => {
+    memes: (_parent, args) =>
       // FIXME: this should be a Meme repository lookup.
-      return connectionFromArray(allMemes, args);
-    },
+      connectionFromArray(allMemes, args),
   },
   Node: {
-    __resolveType: (obj, context, info) => {
+    __resolveType: (obj, context, info) =>
       // FIXME: this should be derivable from the object state.
-      return 'Collection';
-    },
+      'Collection',
   },
   Query: {
-    collection: (_parent, {slug}) => {
+    collection: (_parent, { slug }) =>
       // FIXME: this should be a Collection repository lookup.
-      return idToCollection[slug];
-    },
-    node: (_parent, {id}) => {
-      const {type, id: databaseId} = fromGlobalId(id);
+      idToCollection[slug],
+    node: (_parent, { id }) => {
+      const { type, id: databaseId } = fromGlobalId(id);
       // FIXME this should be a repository lookup based on type.
       return idToCollection[databaseId];
     },

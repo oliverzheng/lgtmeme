@@ -1,8 +1,8 @@
 // @flow
 // @format
 
-import {graphql} from 'graphql';
-import {exampleQuery, schema} from '../graphql';
+import { graphql } from 'graphql';
+import { exampleQuery, schema } from '../graphql';
 
 test('validates fixture query', () => {
   const expectedExecutionResult = {
@@ -24,12 +24,10 @@ test('validates fixture query', () => {
               },
             },
           ],
-          pageInfo: {hasNextPage: false, hasPreviousPage: false},
+          pageInfo: { hasNextPage: false, hasPreviousPage: false },
         },
       },
     },
   };
-  expect(graphql(schema, exampleQuery)).resolves.toEqual(
-    expectedExecutionResult,
-  );
+  expect(graphql(schema, exampleQuery)).resolves.toEqual(expectedExecutionResult);
 });
