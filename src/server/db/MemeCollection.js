@@ -5,7 +5,10 @@ import mongoose, {type MongooseConnection} from 'mongoose';
 
 // Schema
 const MemeCollectionSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
 
   // Put permissioning stuff here in the future
 });
