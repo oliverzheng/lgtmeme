@@ -1,7 +1,7 @@
 // @flow
 // @format
 
-import mongoose from 'mongoose';
+import mongoose, {type MongooseConnection} from 'mongoose';
 
 // Schema
 const MemeCollectionSchema = new mongoose.Schema({
@@ -14,11 +14,13 @@ const MemeCollectionSchema = new mongoose.Schema({
 MemeCollectionSchema.index({name: 1});
 
 // For flow
-class MemeCollectionDoc /* :: extends Mongoose$Document */ {
+export class MemeCollectionDoc /* :: extends Mongoose$Document */ {
   name: string;
 }
 MemeCollectionSchema.loadClass(MemeCollectionDoc);
 
-const MemeCollection = mongoose.model('MemeCollection', MemeCollectionSchema);
-
-export default MemeCollection;
+export function getMemeCollection(
+  connection: MongooseConnection,
+): typeof MemeCollectionDoc {
+  return connection.model('MemeCollection', MemeCollectionSchema);
+}

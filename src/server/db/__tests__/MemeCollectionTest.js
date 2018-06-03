@@ -2,25 +2,22 @@
 // @format
 
 import invariant from 'invariant';
-import mockmongoose from './__mocks__/mockmongoose';
+import {type Connection, connect, disconnect} from './__mocks__/mockmongoose';
 
 // This must be imported after mockgoose wrapper
-import {connect, disconnect} from '../';
-import MemeCollection from '../MemeCollection';
-
-// It's for db integration test - which has to pull in the in-memory mongodb
-// binary. We need to somehow cache the binary on CircleCI so this is faster in
-// the future.
-jest.setTimeout(30000);
+import {getMemeCollection, MemeCollectionDoc} from '../MemeCollection';
 
 describe('MemeCollection', () => {
+  let connection: Connection;
+  let MemeCollection: typeof MemeCollectionDoc;
+
   beforeAll(async () => {
-    await mockmongoose.prepareStorage();
-    await connect();
+    connection = await connect();
+    MemeCollection = getMemeCollection(connection.mongooseConnection);
   });
 
   afterAll(async () => {
-    await disconnect();
+    await disconnect(connection);
   });
 
   test('should return no doc to start with', async () => {
