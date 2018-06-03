@@ -29,6 +29,7 @@ test('validates fixture query', async () => {
       },
     },
   };
+
   const actualExecutionResult = await graphql(schema, exampleQuery);
   expect(actualExecutionResult).toEqual(expectedExecutionResult);
 });

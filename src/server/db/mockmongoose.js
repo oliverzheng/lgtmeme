@@ -2,7 +2,8 @@
 // @format
 
 import mongoose from 'mongoose';
-mongoose.Promise = global.Promise;
 
-import {Mockgoose} from 'mockgoose';
+import {Mockgoose} from 'mockgoose'; // eslint-disable-line import/no-extraneous-dependencies
+
+mongoose.Promise = global.Promise;
 export default new Mockgoose(mongoose);

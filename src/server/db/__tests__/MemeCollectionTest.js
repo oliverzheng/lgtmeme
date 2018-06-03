@@ -33,9 +33,10 @@ describe('MemeCollection', () => {
     const collection = new MemeCollection();
     collection.name = 'Ash Ketchum';
     await collection.save();
-    expect(collection._id).not.toBeNull();
 
-    const obj: ?MemeCollection = await MemeCollection.findById(collection._id);
+    expect(collection.id).not.toBeNull();
+
+    const obj: ?MemeCollection = await MemeCollection.findById(collection.id);
     expect(obj).not.toBeNull();
     invariant(obj, 'flow');
     expect(obj.name).toBe('Ash Ketchum');
