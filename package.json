@@ -16,12 +16,15 @@
     "types:update": "flow-typed update",
     "server:debug": "babel-node --inspect ./src/server/index.js",
     "test:flow": "flow",
-    "test:lint": "eslint 'src/**/*.js' --cache",
     "test:jest": "jest",
-    "test": "yarn test:flow && lint-staged && yarn test:lint && yarn test:jest"
+    "test": "yarn test:flow && lint-staged && yarn test:jest"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": ["prettier-eslint --write", "git add"]
+    "*.{js}": [
+      "prettier-eslint --write",
+      "eslint --cache",
+      "git add"
+    ]
   },
   "dependencies": {
     "apollo-server-express": "^1.3.6",
