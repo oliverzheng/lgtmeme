@@ -1,7 +1,7 @@
 // @flow
 // @format
 
-import mongoose, {type MongoId} from 'mongoose';
+import mongoose from 'mongoose';
 
 // Schema
 const MemeCollectionSchema = new mongoose.Schema({

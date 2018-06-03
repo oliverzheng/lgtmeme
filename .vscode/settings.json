@@ -3,6 +3,5 @@
   "[javascript]": {
     "editor.formatOnSave": true
   },
-  "prettier.eslintIntegration": false,
   "eslint.packageManager": "yarn"
 }

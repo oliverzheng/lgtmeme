@@ -2,7 +2,6 @@
 // @format
 
 import mongoose from 'mongoose';
-import assert from 'assert';
 
 import {
   MONGODB_HOST,
@@ -12,8 +11,8 @@ import {
   MONGODB_DB,
 } from '../env';
 
-const url = `mongodb:\/\/${MONGODB_USER}:${MONGODB_PASS}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DB}`;
-export const urlWithoutPassword = `mongodb:\/\/${MONGODB_USER}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DB}`;
+const url = `mongodb://${MONGODB_USER}:${MONGODB_PASS}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DB}`;
+export const urlWithoutPassword = `mongodb://${MONGODB_USER}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DB}`;
 
 // Ideally, this would give you back an opaque object so that you can operate on
 // different connections in the same node session. Herpderply, flow doesn't know
@@ -25,13 +24,13 @@ export async function connect(): Promise<void> {
       if (err) {
         return reject(err);
       }
-      resolve();
+      return resolve();
     });
   });
 }
 
 export async function disconnect(): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     mongoose.disconnect(resolve);
   });
 }
