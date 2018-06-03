@@ -15,6 +15,8 @@
     "types:install": "flow-typed install",
     "types:update": "flow-typed update",
     "server:debug": "babel-node --inspect ./src/server/index.js",
+    "setup:mockgoose": "babel-node ./src/scripts/ensureMockMongo.js",
+    "pretest": "yarn setup:mockgoose",
     "test:flow": "flow",
     "test:lint": "eslint 'src/**/*.js' --cache --max-warnings=0",
     "test:jest": "jest",
