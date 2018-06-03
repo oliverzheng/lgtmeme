@@ -1,8 +1,8 @@
 // @flow
 // @format
 
-import { graphql } from 'graphql';
-import { exampleQuery, schema } from '../graphql';
+import {graphql} from 'graphql';
+import {exampleQuery, schema} from '../graphql';
 
 test('validates fixture query', async () => {
   const expectedExecutionResult = {
@@ -24,7 +24,7 @@ test('validates fixture query', async () => {
               },
             },
           ],
-          pageInfo: { hasNextPage: false, hasPreviousPage: false },
+          pageInfo: {hasNextPage: false, hasPreviousPage: false},
         },
       },
     },

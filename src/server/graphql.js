@@ -1,8 +1,8 @@
 // @flow
 // @format
 
-import { connectionFromArray, fromGlobalId, globalIdField } from 'graphql-relay';
-import { makeExecutableSchema } from 'graphql-tools';
+import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
+import {makeExecutableSchema} from 'graphql-tools';
 
 const typeDefs = `
 
@@ -145,11 +145,11 @@ const resolvers = {
       'Collection',
   },
   Query: {
-    collection: (_parent, { slug }) =>
+    collection: (_parent, {slug}) =>
       // FIXME: this should be a Collection repository lookup.
       idToCollection[slug],
-    node: (_parent, { id }) => {
-      const { id: databaseId } = fromGlobalId(id);
+    node: (_parent, {id}) => {
+      const {id: databaseId} = fromGlobalId(id);
       // FIXME this should be a repository lookup based on type.
       return idToCollection[databaseId];
     },
