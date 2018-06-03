@@ -20,6 +20,11 @@
     "test:jest": "jest",
     "test": "yarn test:flow && yarn test:lint && yarn test:jest"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/__mocks__/"
+    ]
+  },
   "lint-staged": {
     "*.js": [
       "prettier-eslint --prettier-last --write",

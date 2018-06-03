@@ -2,7 +2,7 @@
 // @format
 
 import invariant from 'invariant';
-import mockmongoose from '../mockmongoose';
+import mockmongoose from './__mocks__/mockmongoose';
 
 // This must be imported after mockgoose wrapper
 import {connect, disconnect} from '../';
