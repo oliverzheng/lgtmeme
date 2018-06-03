@@ -7,11 +7,6 @@ import {type Connection, connect, disconnect} from './__mocks__/mockmongoose';
 // This must be imported after mockgoose wrapper
 import {getMemeCollection, MemeCollectionDoc} from '../MemeCollection';
 
-// It's for db integration test - which has to pull in the in-memory mongodb
-// binary. We need to somehow cache the binary on CircleCI so this is faster in
-// the future.
-jest.setTimeout(30000);
-
 describe('MemeCollection', () => {
   let connection: Connection;
   let MemeCollection: typeof MemeCollectionDoc;
