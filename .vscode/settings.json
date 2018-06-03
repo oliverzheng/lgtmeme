@@ -3,5 +3,12 @@
   "[javascript]": {
     "editor.formatOnSave": true
   },
-  "eslint.packageManager": "yarn"
+  "eslint.packageManager": "yarn",
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/flow-typed": true,
+    "**/dist": true,
+    "**/.DS_Store": true
+  }
 }

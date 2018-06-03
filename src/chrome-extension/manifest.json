@@ -5,9 +5,15 @@
   "manifest_version": 2,
   "permissions": ["activeTab", "declarativeContent"],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["background.bundle.js"],
     "persistent": false
   },
+  "content_scripts": [
+    {
+      "matches": ["https://*.github.com/*"],
+      "js": ["inline.bundle.js"]
+    }
+  ],
   "page_action": {
     "default_popup": "popup.html",
     "default_title": "Shoop Da Woop!"
