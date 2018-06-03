@@ -34,9 +34,9 @@ describe('MemeCollection', () => {
     collection.name = 'Ash Ketchum';
     await collection.save();
 
-    expect(collection._id).not.toBeNull(); // eslint-disable-line no-underscore-dangle
+    expect(collection.id).not.toBeNull();
 
-    const obj: ?MemeCollection = await MemeCollection.findById(collection._id); // eslint-disable-line no-underscore-dangle
+    const obj: ?MemeCollection = await MemeCollection.findById(collection.id);
     expect(obj).not.toBeNull();
     invariant(obj, 'flow');
     expect(obj.name).toBe('Ash Ketchum');
