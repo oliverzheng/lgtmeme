@@ -140,7 +140,7 @@ const resolvers = {
       connectionFromArray(allMemes, args),
   },
   Node: {
-    __resolveType: (obj, context, info) =>
+    __resolveType: () =>
       // FIXME: this should be derivable from the object state.
       'Collection',
   },
@@ -149,7 +149,7 @@ const resolvers = {
       // FIXME: this should be a Collection repository lookup.
       idToCollection[slug],
     node: (_parent, { id }) => {
-      const { type, id: databaseId } = fromGlobalId(id);
+      const { id: databaseId } = fromGlobalId(id);
       // FIXME this should be a repository lookup based on type.
       return idToCollection[databaseId];
     },

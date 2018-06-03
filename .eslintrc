@@ -2,9 +2,13 @@
     "parser": "babel-eslint",
     "extends": ["airbnb-base", "plugin:flowtype/recommended"],
     "plugins": [
-        "flowtype"
+        "flowtype",
+        "jest"
     ],
     "rules": {
         "quote-props": ["error", "as-needed", { "numbers": true }]
+    },
+    "env": {
+        "jest/globals": true
     }
 }

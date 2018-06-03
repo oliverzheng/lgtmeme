@@ -2,7 +2,7 @@
 // @format
 
 import { connect, urlWithoutPassword } from './db';
-import { createApp } from './app';
+import createApp from './app';
 import { SERVER_PORT } from './env';
 
 async function start() {
