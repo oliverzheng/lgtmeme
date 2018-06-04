@@ -12,8 +12,8 @@
         "SERVER_PORT": "3000",
         "MONGODB_HOST": "127.0.0.1",
         "MONGODB_PORT": "27017",
-        "MONGODB_USER": "",
-        "MONGODB_PASS": "",
+        "MONGODB_USER": "mongodb",
+        "MONGODB_PASS": "mongodb",
         "MONGODB_DB": "lgtmeme"
       },
       "preLaunchTask": "yarn:install",
