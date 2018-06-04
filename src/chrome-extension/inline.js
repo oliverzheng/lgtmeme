@@ -4,30 +4,35 @@
 declare var chrome: any;
 declare var document: Document;
 
+const memeCollection = {
+  FUUU: {
+    image: {
+      url:
+        'https://user-images.githubusercontent.com/526858/40897022-7226c9ca-676d-11e8-95e0-7d35ff2ad4ce.png',
+    },
+  },
+  LGTM: {
+    image: {
+      url:
+        'https://user-images.githubusercontent.com/526858/40896863-84ce611a-676c-11e8-8efe-d4383e187132.png',
+    },
+  },
+  OHYOU: {
+    image: {
+      url:
+        'https://user-images.githubusercontent.com/526858/40896996-44c01eb4-676d-11e8-9326-4f2fb0db2e98.jpeg',
+    },
+  },
+};
+
+const macroMatcher = new RegExp(Object.keys(memeCollection).join('|'), 'gi');
+
 function keyEventHandler(event) {
   const element = event.target;
-
-  switch (event.target.value.trim().toUpperCase()) {
-    case 'FUUU':
-      element.value =
-        '![fuuu](https://user-images.githubusercontent.com/526858/40897022-7226c9ca-676d-11e8-95e0-7d35ff2ad4ce.png)';
-      break;
-    case 'LGTM':
-      element.value =
-        '![lgtm](https://user-images.githubusercontent.com/526858/40896863-84ce611a-676c-11e8-8efe-d4383e187132.png)';
-      break;
-    case 'OHYOU':
-      element.value =
-        '![ohyou](https://user-images.githubusercontent.com/526858/40896996-44c01eb4-676d-11e8-9326-4f2fb0db2e98.jpeg)';
-      break;
-    case 'DEBUG':
-      chrome.runtime.sendMessage({text: element.value}, response => {
-        element.value = JSON.stringify(response.data);
-      });
-      break;
-    default:
-      break;
-  }
+  element.value = element.value.replace(
+    macroMatcher,
+    macro => `![](${memeCollection[macro.trim().toUpperCase()].image.url})`,
+  );
 }
 
 if (document.body) {
