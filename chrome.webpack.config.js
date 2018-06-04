@@ -14,8 +14,8 @@ module.exports = {
   devtool: 'source-map', // Chrome CSP doesn't allow `eval()`
   entry: {
     background: ['babel-polyfill', './src/chrome-extension/background.js'],
-    inline: './src/chrome-extension/inline.js',
-    popup: './src/chrome-extension/popup.js',
+    inline: ['babel-polyfill', './src/chrome-extension/inline.js'],
+    popup: ['babel-polyfill', './src/chrome-extension/popup.js'],
   },
   module: {
     rules: [
