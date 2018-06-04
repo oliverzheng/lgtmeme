@@ -6,6 +6,9 @@
         "jest",
         "prettier"
     ],
+    "rules": {
+      "no-underscore-dangle": ["error", { "allowAfterThis": true }]
+    },
     "env": {
         "jest/globals": true
     }
