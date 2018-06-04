@@ -11,11 +11,15 @@ Add a `.env` file to the root directory of this repo, with
 
 ```
 SERVER_PORT=3000
+
 MONGODB_HOST=127.0.0.1
 MONGODB_PORT=27017
 MONGODB_USER=<user>
 MONGODB_PASS=<pass>
 MONGODB_DB=<dbname>
+
+LOCAL_FILE_SERVER_PORT=8000
+LOCAL_FILE_SERVER_ROOT_DIR=files
 ```
 
 Then run
