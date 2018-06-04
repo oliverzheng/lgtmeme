@@ -63,5 +63,8 @@ typings/
 # vuepress build output
 .vuepress/dist
 
+# Build artifacts
+schema.json
+
 # Release artifacts
 dist/

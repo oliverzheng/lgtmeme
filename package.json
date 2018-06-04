@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "build:chrome": "webpack --config chrome.webpack.config.js",
+    "build:graphql": "apollo-codegen introspect-schema http://localhost:3000/graphql --output schema.json && apollo-codegen generate ./src/chrome-extension/**/*.js --schema schema.json --target flow --add-typename --output ./src/chrome-extension/graphql.js",
     "precommit": "flow && lint-staged",
     "flow:watch": "flow-watch",
     "format": "prettier-eslint 'src/**/*.js' --prettier-last --write",
@@ -60,6 +61,7 @@
     "@babel/node": "^7.0.0-beta.49",
     "@babel/preset-env": "^7.0.0-beta.49",
     "@babel/preset-flow": "^7.0.0-beta.49",
+    "apollo-codegen": "^0.19.1",
     "app-root-path": "^2.0.1",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "^8.2.3",
