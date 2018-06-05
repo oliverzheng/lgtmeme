@@ -6,7 +6,7 @@ export type GetCollectionBySlugQuery = {|
   // Find a collection by its URL segment.
   collection: ?{|
     __typename: 'Collection',
-    // The ID of an object
+    // A globally unique ID for the collection.
     id: string,
     // All memes that belong to this collection.
     memes: {|
