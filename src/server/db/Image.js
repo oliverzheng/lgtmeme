@@ -3,6 +3,8 @@
 
 import mongoose from 'mongoose';
 
+import {type Storage, type LocalFilePath} from '../storage';
+
 /* There is an implicit dependency on the underlying storage. The storage used
  * to store the files is expected to work the same way when memes are accessed
  * from mongodb. A different storage can be used at read time than the one used
@@ -27,5 +29,21 @@ export class ImageDoc /* :: extends Mongoose$Document */ {
   fileID: string;
   width: number;
   height: number;
+
+  static async uploadImage(
+    storage: Storage,
+    localFilePath: LocalFilePath,
+  ): Promise<ImageDoc> {
+    const fileID = await storage.putFile(localFilePath);
+
+    const image = new ImageDoc();
+    image.fileID = fileID;
+    // TODO get dimensions of the local image. On a plane right now so can't
+    // yarn add strangers-code
+    image.width = 100;
+    image.height = 100;
+
+    return image;
+  }
 }
 ImageSchema.loadClass(ImageDoc);
