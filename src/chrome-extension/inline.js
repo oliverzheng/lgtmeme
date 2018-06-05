@@ -1,7 +1,9 @@
 // @flow
 // @format
+import {type Chrome} from './chrome';
+import {type GetCollectionBySlugQuery} from './graphql';
 
-declare var chrome: any;
+declare var chrome: Chrome;
 declare var document: Document;
 
 const memeCollection = {
@@ -48,5 +50,6 @@ if (document.body) {
 }
 
 chrome.runtime.sendMessage({text: 'hello'}, response => {
-  document.title = JSON.stringify(response.data);
+  const responseData: GetCollectionBySlugQuery = response.data;
+  document.title = JSON.stringify(responseData);
 });

@@ -1,10 +1,12 @@
 // @flow
 // @format
-import ApolloClient from 'apollo-boost';
+import ApolloClient, {ApolloQueryResult} from 'apollo-boost';
 import gql from 'graphql-tag';
+import {type Chrome} from './chrome';
+import {type GetCollectionBySlugQuery} from './graphql';
 
 const CollectionQuery = gql`
-  query CollectionQuery {
+  query GetCollectionBySlug {
     collection(slug: "1") {
       id
       memes(first: 10) {
@@ -31,12 +33,12 @@ const CollectionQuery = gql`
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
 });
-const fetch = async (): Promise<any> =>
+const fetch = async (): Promise<ApolloQueryResult<GetCollectionBySlugQuery>> =>
   client.query({
     query: CollectionQuery,
   });
 
-declare var chrome: any;
+declare var chrome: Chrome;
 chrome.runtime.onInstalled.addListener(() => {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
     chrome.declarativeContent.onPageChanged.addRules([
