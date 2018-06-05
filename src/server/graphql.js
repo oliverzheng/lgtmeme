@@ -3,8 +3,12 @@
 import fs from 'fs';
 import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
 import {makeExecutableSchema} from 'graphql-tools';
+import path from 'path';
 
-const typeDefs = fs.readFileSync('./schema.graphql', 'utf8');
+const typeDefs = fs.readFileSync(
+  path.resolve(__dirname, '../schema.graphql'),
+  'utf8',
+);
 
 const idToCollection = {
   '1': {

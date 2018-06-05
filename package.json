@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "build:chrome": "webpack --config chrome.webpack.config.js",
-    "build:graphql": "apollo-codegen introspect-schema ./schema.graphql --output schema.json && apollo-codegen generate ./src/chrome-extension/**/*.js --schema schema.json --target flow --add-typename --output ./src/chrome-extension/graphql.js && prettier-eslint 'src/**/graphql.js' --prettier-last --write",
+    "build:graphql": "apollo-codegen introspect-schema ./src/schema.graphql --output schema.json && apollo-codegen generate ./src/chrome-extension/**/*.js --schema schema.json --target flow --add-typename --output ./src/chrome-extension/graphql.js && prettier-eslint 'src/**/graphql.js' --prettier-last --write",
     "precommit": "flow && lint-staged",
     "flow:watch": "flow-watch",
     "format": "prettier-eslint 'src/**/*.js' --prettier-last --write",
