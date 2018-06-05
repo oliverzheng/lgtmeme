@@ -5,6 +5,7 @@ import invariant from 'invariant';
 import mongoose from 'mongoose';
 
 import {MemeCollectionDoc} from './MemeCollection';
+import {ImageSchema, ImageDoc} from './Image';
 
 // Schema
 const MemeSchema = new mongoose.Schema(
@@ -14,6 +15,7 @@ const MemeSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    sourceImage: ImageSchema,
   },
   {
     pluralization: false,
@@ -26,6 +28,7 @@ MemeSchema.index({macro: 1});
 // For flow
 export class MemeDoc /* :: extends Mongoose$Document */ {
   macro: string;
+  sourceImage: ImageDoc;
 }
 MemeSchema.loadClass(MemeDoc);
 
