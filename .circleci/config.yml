@@ -32,6 +32,19 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
+
+      - run:
+          name: "ESLint"
+          command: yarn eslint ./src/**/*.js --format junit -o ./reports/junit/js-lint-results.xml
+
       # run tests!
-      - run: yarn test
+      - run:
+          name: "Jest"
+          # yarn here makes sure we are using the local jest binary
+          command: JEST_JUNIT_OUTPUT=./reports/junit/js-test-results.xml yarn test --ci --testResultsProcessor="jest-junit"
+
+      - store_test_results:
+          path: ./reports/junit
+
+      - store_artifacts:
+          path: ./reports/junit
