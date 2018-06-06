@@ -9,16 +9,22 @@ const MemeCollectionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 
   // Put permissioning stuff here in the future
 });
 
 // Indices
-MemeCollectionSchema.index({name: 1});
+MemeCollectionSchema.index({slug: 1});
 
 // For flow
 export class MemeCollectionDoc /* :: extends Mongoose$Document */ {
   name: string;
+  slug: string;
 }
 MemeCollectionSchema.loadClass(MemeCollectionDoc);
 

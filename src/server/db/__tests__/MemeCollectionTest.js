@@ -29,6 +29,7 @@ describe('MemeCollection', () => {
   test('should return a saved doc with findById', async () => {
     const collection = new MemeCollection();
     collection.name = 'Ash Ketchum';
+    collection.slug = 'red';
     await collection.save();
 
     expect(collection.id).not.toBeNull();
@@ -37,5 +38,6 @@ describe('MemeCollection', () => {
     expect(obj).not.toBeNull();
     invariant(obj, 'flow');
     expect(obj.name).toBe('Ash Ketchum');
+    expect(obj.slug).toBe('red');
   });
 });

@@ -1,7 +1,7 @@
 // @flow
 // @format
 
-// $ node createMeme.js <collection-name> <path_to_jpg> <macro>
+// $ node createMeme.js <collection-slug> <path_to_jpg> <macro>
 
 import fs from 'fs';
 import path from 'path';
@@ -25,19 +25,20 @@ const localFileStorage = new LocalFileStorage(DIR, `http://${HOST}:${PORT}`);
 
 async function getOrCreateSandboxMemeCollection(
   MemeCollection: typeof MemeCollectionDoc,
-  collectionName: string,
+  collectionSlug: string,
 ): Promise<MemeCollectionDoc> {
-  let collection = await MemeCollection.findOne({name: collectionName});
+  let collection = await MemeCollection.findOne({slug: collectionSlug});
   if (!collection) {
     collection = new MemeCollection();
-    collection.name = collectionName;
+    collection.name = collectionSlug;
+    collection.slug = collectionSlug;
     await collection.save();
   }
   return collection;
 }
 
 async function createMeme(
-  collectionName: string,
+  collectionSlug: string,
   localFilePath: string,
   macro: string,
 ) {
@@ -51,7 +52,7 @@ async function createMeme(
     const MemeCollection = getMemeCollection(getConnection());
     const memeCollection = await getOrCreateSandboxMemeCollection(
       MemeCollection,
-      collectionName,
+      collectionSlug,
     );
     const Meme = getMemeModelForCollection(memeCollection);
     const existingMeme = await Meme.findOne({macro});
@@ -74,9 +75,9 @@ async function createMeme(
   }
 }
 
-const collectionName = process.argv[2];
-if (!collectionName) {
-  throw new Error('Need to specify a collection name');
+const collectionSlug = process.argv[2];
+if (!collectionSlug) {
+  throw new Error('Need to specify a collection slug');
 }
 
 const localFilePath = process.argv[3];
@@ -89,7 +90,7 @@ if (!macro) {
   throw new Error('Need to specify a macro');
 }
 
-createMeme(collectionName, localFilePath, macro).catch(error => {
+createMeme(collectionSlug, localFilePath, macro).catch(error => {
   console.error(`ERROR: ${error.message}`);
   process.exit(1);
 });

@@ -19,6 +19,7 @@ describe('Meme', () => {
 
     collection = new MemeCollection();
     collection.name = 'Water Pokemons';
+    collection.slug = 'misty';
     await collection.save();
   });
 
