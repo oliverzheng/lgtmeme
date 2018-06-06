@@ -54,7 +54,6 @@ describe('LocalFileStorage', () => {
   });
 
   test('can get file', async () => {
-    const localFilepath = `${__dirname}/__fixtures__/herpderp.png`;
     const storedFilename = await localFileStorage.putFile(HERPDERP_FILEPATH);
 
     const url = await localFileStorage.getFileUrl(storedFilename);
