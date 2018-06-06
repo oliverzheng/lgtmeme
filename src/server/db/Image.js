@@ -2,6 +2,7 @@
 // @format
 
 import mongoose from 'mongoose';
+import sizeOf from 'image-size';
 
 import {type Storage, type LocalFilePath} from '../storage';
 
@@ -35,13 +36,12 @@ export class ImageDoc /* :: extends Mongoose$Document */ {
     localFilePath: LocalFilePath,
   ): Promise<ImageDoc> {
     const fileID = await storage.putFile(localFilePath);
+    const dimensions = sizeOf(localFilePath);
 
     const image = new ImageDoc();
     image.fileID = fileID;
-    // TODO get dimensions of the local image. On a plane right now so can't
-    // yarn add strangers-code
-    image.width = 100;
-    image.height = 100;
+    image.width = dimensions.width;
+    image.height = dimensions.height;
 
     return image;
   }
