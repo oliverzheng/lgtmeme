@@ -18,6 +18,7 @@
     "server:debug": "babel-node --inspect ./src/server/index.js",
     "file-server": "babel-node ./src/scripts/startFileServer",
     "setup:mockgoose": "babel-node ./src/scripts/ensureMockMongo.js",
+    "create-meme": "babel-node ./src/scripts/createMeme.js",
     "pretest": "yarn setup:mockgoose",
     "test:flow": "flow",
     "test:lint": "eslint 'src/**/*.js' --cache --max-warnings=0",
