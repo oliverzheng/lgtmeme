@@ -4,36 +4,31 @@ import fs from 'fs';
 import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
 import {makeExecutableSchema} from 'graphql-tools';
 import path from 'path';
+import {connection} from 'mongoose';
+import {MemeDoc, getMemeModelForCollection} from './db/Meme';
+import {MemeCollectionDoc, getMemeCollection} from './db/MemeCollection';
+import {ImageDoc} from './db/Image';
 
 const typeDefs = fs.readFileSync(
   path.resolve(__dirname, '../schema.graphql'),
   'utf8',
 );
 
-const idToCollection = {
-  '1': {
-    id: '1',
-  },
-};
-
-const allMemes = [
-  {
-    image: {
-      height: 300,
-      width: 200,
-      url:
-        'https://user-images.githubusercontent.com/526858/40877498-a7df8ec2-6636-11e8-848d-88fd1af1e65f.jpg',
-    },
-    macro: 'ItS SheRAmiE',
-  },
-];
-
 const resolvers = {
   Collection: {
     id: globalIdField(),
-    memes: (_parent, args) =>
-      // FIXME: this should be a Meme repository lookup.
-      connectionFromArray(allMemes, args),
+    memes: async (collection: MemeCollectionDoc, args) => {
+      const Meme = getMemeModelForCollection(collection);
+      const memes = await Meme.find();
+      return connectionFromArray(memes, args);
+    },
+  },
+  Image: {
+    url: (sourceImage: ImageDoc) =>
+      `http://localhost:3000/${sourceImage.fileID}`,
+  },
+  Meme: {
+    image: (meme: MemeDoc) => meme.sourceImage,
   },
   Node: {
     __resolveType: () =>
@@ -41,13 +36,15 @@ const resolvers = {
       'Collection',
   },
   Query: {
-    collection: (_parent, {slug}) =>
-      // FIXME: this should be a Collection repository lookup.
-      idToCollection[slug],
+    collection: async (_, {slug}) => {
+      const MemeCollection = getMemeCollection(connection);
+      const collection = await MemeCollection.findById(slug);
+      return collection;
+    },
     node: (_parent, {id}) => {
       const {id: databaseId} = fromGlobalId(id);
-      // FIXME this should be a repository lookup based on type.
-      return idToCollection[databaseId];
+      const MemeCollection = getMemeCollection(connection);
+      return MemeCollection.findById(databaseId);
     },
   },
 };
@@ -59,7 +56,7 @@ export const schema = makeExecutableSchema({
 
 export const exampleQuery = `
 query CollectionQuery {
-  collection(slug:"1") {
+  collection(slug:"5b173137f461920d07ab09e0") {
     id
     memes(first:10) {
       edges {
