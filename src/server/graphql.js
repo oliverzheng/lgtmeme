@@ -7,12 +7,13 @@ import path from 'path';
 import {connection} from 'mongoose';
 import {MemeDoc, getMemeModelForCollection} from './db/Meme';
 import {MemeCollectionDoc, getMemeCollection} from './db/MemeCollection';
-import {ImageDoc} from './db/Image';
 
 const typeDefs = fs.readFileSync(
   path.resolve(__dirname, '../schema.graphql'),
   'utf8',
 );
+
+type MemeFromCollection = {meme: MemeDoc, collection: MemeCollectionDoc};
 
 const resolvers = {
   Collection: {
@@ -20,15 +21,22 @@ const resolvers = {
     memes: async (collection: MemeCollectionDoc, args) => {
       const Meme = getMemeModelForCollection(collection);
       const memes = await Meme.find();
-      return connectionFromArray(memes, args);
+      const memesWithSlug: Array<MemeFromCollection> = memes.map(meme => ({
+        meme,
+        collection,
+      }));
+      return connectionFromArray(memesWithSlug, args);
     },
   },
   Image: {
-    url: (sourceImage: ImageDoc) =>
-      `http://localhost:3000/${sourceImage.fileID}`,
+    height: ({meme}: MemeFromCollection) => meme.sourceImage.height,
+    url: ({meme, collection}: MemeFromCollection) =>
+      `http://localhost:3000/${collection.name}/${meme.sourceImage.fileID}`,
+    width: ({meme}: MemeFromCollection) => meme.sourceImage.width,
   },
   Meme: {
-    image: (meme: MemeDoc) => meme.sourceImage,
+    image: (memeFromCollection: MemeFromCollection) => memeFromCollection,
+    macro: ({meme}: MemeFromCollection) => meme.macro,
   },
   Node: {
     __resolveType: () =>
