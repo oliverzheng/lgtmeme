@@ -10,6 +10,8 @@ import {
   MONGODB_DB,
 } from '../env';
 
+mongoose.Promise = global.Promise;
+
 const url = `mongodb://${MONGODB_USER}:${MONGODB_PASS}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DB}`;
 export const urlWithoutPassword = `mongodb://${MONGODB_USER}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DB}`;
 
@@ -32,4 +34,8 @@ export async function disconnect(): Promise<void> {
   return new Promise(resolve => {
     mongoose.disconnect(resolve);
   });
+}
+
+export function getConnection(): Mongoose$Connection {
+  return mongoose.connection;
 }

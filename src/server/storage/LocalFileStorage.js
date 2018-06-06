@@ -38,23 +38,20 @@ export default class LocalFileStorage implements Storage {
     // someone else
     const tmpobj = tmp.fileSync({
       dir: this._rootPath,
+      prefix: 'image_',
       postfix: ext,
       discardDescriptor: true,
       keep: true,
     });
 
     fs.copySync(localFilepath, tmpobj.name);
-    return tmpobj.name;
+    return path.basename(tmpobj.name);
   }
 
   async getFileUrl(fileID: FileID): Promise<URL> {
-    const dirname = path.dirname(fileID);
-    if (dirname !== this._rootPath) {
-      throw new Error(
-        `Unmatching base fileID: expected ${this._rootPath}, got ${dirname}`,
-      );
+    if (path.dirname(fileID) !== '.') {
+      throw new Error('Must be a file name without path');
     }
-    const basename = path.basename(fileID);
-    return `${this._serverBaseUrl}/${basename}`;
+    return `${this._serverBaseUrl}/${fileID}`;
   }
 }
