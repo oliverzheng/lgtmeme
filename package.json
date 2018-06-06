@@ -21,8 +21,8 @@
     "create-meme": "babel-node ./src/scripts/createMeme.js",
     "pretest": "yarn setup:mockgoose",
     "test:flow": "flow",
-    "test:lint": "eslint 'src/**/*.js' --cache --max-warnings=0",
-    "test:jest": "jest",
+    "test:lint": "eslint 'src/**/*.js' --cache --max-warnings=0 --format junit -o reports/junit/eslint/js-lint-results.xml",
+    "test:jest": "JEST_JUNIT_OUTPUT=reports/junit/jest/js-jest-results.xml jest --testResultsProcessor=jest-junit",
     "test": "yarn test:flow && yarn test:lint && yarn test:jest"
   },
   "jest": {

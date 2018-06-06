@@ -68,3 +68,6 @@ schema.json
 
 # Release artifacts
 dist/
+
+# Test artifacts
+reports/
