@@ -32,16 +32,19 @@ describe('LocalFileStorage', () => {
   });
 
   test('can put file', async () => {
-    const storedFilepath = await localFileStorage.putFile(HERPDERP_FILEPATH);
+    const storedFilename = await localFileStorage.putFile(HERPDERP_FILEPATH);
 
-    expect(path.dirname(storedFilepath)).toEqual(rootDirPath);
+    // Should only be a single file name without path
+    expect(path.dirname(storedFilename)).toEqual('.');
 
     const filenames = fs.readdirSync(rootDirPath);
     expect(filenames).toHaveLength(1);
     expect(filenames[0]).toEqual(expect.stringMatching(/\.png$/));
 
     const localFileSize = fs.statSync(HERPDERP_FILEPATH).size;
-    const storedFileSize = fs.statSync(storedFilepath).size;
+    const storedFileSize = fs.statSync(path.join(rootDirPath, storedFilename))
+      .size;
+
     expect(storedFileSize).toEqual(localFileSize);
   });
 
@@ -51,14 +54,15 @@ describe('LocalFileStorage', () => {
   });
 
   test('can get file', async () => {
-    const storedFilepath = await localFileStorage.putFile(HERPDERP_FILEPATH);
+    const localFilepath = `${__dirname}/__fixtures__/herpderp.png`;
+    const storedFilename = await localFileStorage.putFile(HERPDERP_FILEPATH);
 
-    const url = await localFileStorage.getFileUrl(storedFilepath);
+    const url = await localFileStorage.getFileUrl(storedFilename);
     expect(url).toEqual(
       expect.stringMatching(new RegExp(`^${SERVER_BASE_PATH}`)),
     );
     expect(url).toEqual(
-      expect.stringMatching(new RegExp(`${path.basename(storedFilepath)}$`)),
+      expect.stringMatching(new RegExp(`${path.basename(storedFilename)}$`)),
     );
   });
 
