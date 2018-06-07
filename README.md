@@ -66,6 +66,15 @@ Run `yarn build:chrome`.
 
 Run task `npm: build:chrome`.
 
+## Using
+
+For now, the image files are stored on a shared Dropbox folder. The data is in
+a shared mLab MongoDB database. Ask someone for access to these.
+
+Configure `.env` with the MongoDB credentials. Set `LOCAL_FILE_SERVER_ROOT_DIR`
+the relative link to the shared Dropbox folder, e.g. `../../Dropbox/memes`. Then
+launch `yarn file-server` to serve the images over HTTP.
+
 [adminmongo]: https://github.com/mrvautin/adminMongo
 [docker for mac]: https://store.docker.com/editions/community/docker-ce-desktop-mac
 [visual studio code]: https://code.visualstudio.com
