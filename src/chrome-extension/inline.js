@@ -1,7 +1,7 @@
 // @flow
 // @format
 import {type Chrome} from './chrome';
-import {type GetCollectionBySlugQuery} from './graphql';
+import {type GetCollectionByIDQuery} from './graphql';
 
 declare var chrome: Chrome;
 declare var document: Document;
@@ -50,6 +50,6 @@ if (document.body) {
 }
 
 chrome.runtime.sendMessage({text: 'hello'}, response => {
-  const responseData: GetCollectionBySlugQuery = response.data;
+  const responseData: GetCollectionByIDQuery = response.data;
   document.title = JSON.stringify(responseData);
 });

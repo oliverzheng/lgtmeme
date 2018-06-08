@@ -8,9 +8,12 @@ import {
   disconnect,
 } from '../db/__tests__/__mocks__/mockmongoose';
 import {createSchema, exampleQuery} from '../graphql';
+import {type Storage} from '../storage';
+import mockStorage from '../storage/__mocks__/mockStorage';
 
 describe('GraphQL', () => {
   let mongoose: Connection;
+  const storage: Storage = mockStorage;
 
   beforeAll(async () => {
     mongoose = await connect();
@@ -27,7 +30,7 @@ describe('GraphQL', () => {
       },
     };
 
-    const schema = createSchema(mongoose.mongooseConnection);
+    const schema = createSchema(mongoose.mongooseConnection, storage);
     const actualExecutionResult = await graphql(schema, exampleQuery);
     expect(actualExecutionResult).toEqual(expectedExecutionResult);
   });
