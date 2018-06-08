@@ -1,7 +1,6 @@
 // @flow
 // @format
-
-import mongoose from 'mongoose';
+import mongoose, {type MongooseConnection} from 'mongoose';
 
 import {
   MONGODB_HOST,
@@ -19,14 +18,14 @@ export const urlWithoutPassword = `mongodb://${MONGODB_USER}@${MONGODB_HOST}:${M
 // Ideally, this would give you back an opaque object so that you can operate on
 // different connections in the same node session. Herpderply, flow doesn't know
 // about any times if it's not created through the main mongoose object.
-export async function connect(): Promise<void> {
+export async function connect(): Promise<MongooseConnection> {
   return new Promise((resolve, reject) => {
     // flow-typed doesn't have the 3-arg type definition :|
     (mongoose.connect: any)(url, {useMongoClient: true}, err => {
       if (err) {
         return reject(err);
       }
-      return resolve();
+      return resolve(mongoose.connection);
     });
   });
 }

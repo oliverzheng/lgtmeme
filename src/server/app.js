@@ -5,18 +5,20 @@ import cors from 'cors';
 import express, {type $Application} from 'express';
 import bodyParser from 'body-parser';
 import {graphiqlExpress, graphqlExpress} from 'apollo-server-express';
-import {exampleQuery, schema} from './graphql';
+import {type MongooseConnection} from 'mongoose';
+import {createSchema, exampleQuery} from './graphql';
 
-const createApp = (): $Application => {
+const createApp = (connection: MongooseConnection): $Application => {
+  const schema = createSchema(connection);
   const app = express();
 
   app.use(
     cors({
       origin: (req: ?string, callback) => {
         if (req && req.startsWith('chrome-extension://')) {
-          callback(null, {origin: true});
+          callback(null, true);
         } else {
-          callback(null, {origin: false});
+          callback(null, false);
         }
       },
       methods: ['POST'],

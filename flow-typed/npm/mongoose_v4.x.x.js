@@ -1,5 +1,5 @@
-// flow-typed signature: 3cd672601feb11af16a65b401db53789
-// flow-typed version: 19b76d9de0/mongoose_v4.x.x/flow_>=v0.50.x
+// flow-typed signature: cd5980f7dad7099ea174c776bbe42f44
+// flow-typed version: a146e2f7e9/mongoose_v4.x.x/flow_>=v0.50.x
 
 /*** FIX broken globals import 'bson' (((( ***/
 // import 'bson';
@@ -109,9 +109,12 @@ type Mongoose$SchemaHookTypes =
   | "save"
   | "validate"
   | "find"
+  | "findOne"
+  | "count"
   | "update"
   | "remove"
   | "findOneAndRemove"
+  | "findOneAndUpdate"
   | "init";
 
 type Mongoose$SchemaPlugin<Opts> = (

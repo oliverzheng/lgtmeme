@@ -2,34 +2,33 @@
 // @format
 
 import {graphql} from 'graphql';
-import {exampleQuery, schema} from '../graphql';
+import {
+  type Connection,
+  connect,
+  disconnect,
+} from '../db/__tests__/__mocks__/mockmongoose';
+import {createSchema, exampleQuery} from '../graphql';
 
-test('validates fixture query', async () => {
-  const expectedExecutionResult = {
-    data: {
-      collection: {
-        id: 'Q29sbGVjdGlvbjox',
-        memes: {
-          edges: [
-            {
-              cursor: 'YXJyYXljb25uZWN0aW9uOjA=',
-              node: {
-                image: {
-                  height: 300,
-                  url:
-                    'https://user-images.githubusercontent.com/526858/40877498-a7df8ec2-6636-11e8-848d-88fd1af1e65f.jpg',
-                  width: 200,
-                },
-                macro: 'ItS SheRAmiE',
-              },
-            },
-          ],
-          pageInfo: {hasNextPage: false, hasPreviousPage: false},
-        },
+describe('GraphQL', () => {
+  let mongoose: Connection;
+
+  beforeAll(async () => {
+    mongoose = await connect();
+  });
+
+  afterAll(async () => {
+    await disconnect(mongoose);
+  });
+
+  test('validates query response', async () => {
+    const expectedExecutionResult = {
+      data: {
+        collection: null,
       },
-    },
-  };
+    };
 
-  const actualExecutionResult = await graphql(schema, exampleQuery);
-  expect(actualExecutionResult).toEqual(expectedExecutionResult);
+    const schema = createSchema(mongoose.mongooseConnection);
+    const actualExecutionResult = await graphql(schema, exampleQuery);
+    expect(actualExecutionResult).toEqual(expectedExecutionResult);
+  });
 });
