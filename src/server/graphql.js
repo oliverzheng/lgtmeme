@@ -18,7 +18,7 @@ import {
 } from './db/MemeCollection';
 
 const typeDefs = fs.readFileSync(
-  path.resolve(__dirname, '../schema.graphql'),
+  path.resolve(process.cwd(), 'src', 'schema.graphql'),
   'utf8',
 );
 
