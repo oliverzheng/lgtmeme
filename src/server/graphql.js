@@ -1,24 +1,36 @@
 // @flow
 // @format
+
 import fs from 'fs';
 import {GraphQLSchema} from 'graphql';
 import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
 import {makeExecutableSchema} from 'graphql-tools';
-import invariant from 'invariant';
 import {type MongooseConnection} from 'mongoose';
 import path from 'path';
-import {MemeDoc, getMemeModelForCollection} from './db/Meme';
-import {MemeCollectionDoc, getMemeCollection} from './db/MemeCollection';
+
+import {type Storage} from './storage';
+import {ImageDoc} from './db/Image';
+import {MemeSchema, MemeDoc, getMemeModelForCollection} from './db/Meme';
+import {
+  MemeCollectionSchema,
+  MemeCollectionDoc,
+  getMemeCollection,
+} from './db/MemeCollection';
 
 const typeDefs = fs.readFileSync(
   path.resolve(process.cwd(), 'src', 'schema.graphql'),
   'utf8',
 );
 
-export const createSchema = (connection: MongooseConnection): GraphQLSchema => {
+export const createSchema = (
+  connection: MongooseConnection,
+  storage: Storage,
+): GraphQLSchema => {
+  const MemeCollection = getMemeCollection(connection);
+
   const resolvers = {
     Collection: {
-      id: globalIdField(),
+      id: globalIdField('collection'),
       memes: async (collection: MemeCollectionDoc, args) => {
         const Meme = getMemeModelForCollection(collection);
         const memes = await Meme.find();
@@ -26,36 +38,52 @@ export const createSchema = (connection: MongooseConnection): GraphQLSchema => {
       },
     },
     Image: {
-      height: (meme: MemeDoc) => meme.sourceImage.height,
-      url: async (meme: MemeDoc) => {
-        const id = meme.collection.collectionName.replace('Meme_', '');
-        const MemeCollection = getMemeCollection(connection);
-        const collection = await MemeCollection.findById(id);
-        invariant(collection != null, 'Meme collection must be saved already');
-        return `http://localhost:3000/${collection.name}/${
-          meme.sourceImage.fileID
-        }`;
-      },
-      width: (meme: MemeDoc) => meme.sourceImage.width,
+      height: (image: ImageDoc) => image.height,
+      url: (image: ImageDoc) => storage.getFileUrl(image.fileID),
+      width: (image: ImageDoc) => image.width,
     },
     Meme: {
-      image: (meme: MemeDoc) => meme,
+      id: globalIdField('meme', (meme: MemeDoc) =>
+        meme.getCollectionAndMemeID(),
+      ),
+      image: (meme: MemeDoc) => meme.sourceImage,
     },
     Node: {
-      __resolveType: () =>
-        // FIXME: this should be derivable from the object state.
-        'Collection',
+      __resolveType: obj => {
+        if (obj.schema === MemeSchema) {
+          return 'Meme';
+        } else if (obj.schema === MemeCollectionSchema) {
+          return 'Collection';
+        }
+        throw new Error('Do not know the type of obj');
+      },
     },
     Query: {
-      collection: async (_, {slug}) => {
-        const MemeCollection = getMemeCollection(connection);
-        const collection = await MemeCollection.findOne({slug});
-        return collection;
+      collection: async (_, {collectionID}) => {
+        const {id} = fromGlobalId(collectionID);
+        return MemeCollection.findById(id);
       },
-      node: (_parent, {id}) => {
-        const {id: databaseId} = fromGlobalId(id);
-        const MemeCollection = getMemeCollection(connection);
-        return MemeCollection.findById(databaseId);
+      node: async (_parent, {id}) => {
+        const {type, id: databaseId} = fromGlobalId(id);
+        switch (type) {
+          case 'meme': {
+            const {memeID, collectionID} = MemeDoc.fromCollectionAndMemeID(
+              databaseId,
+            );
+            const memeCollection = await MemeCollection.findById(collectionID);
+            if (!memeCollection) {
+              return null;
+            }
+            const Meme = getMemeModelForCollection(memeCollection);
+            return Meme.findById(memeID);
+          }
+
+          case 'collection':
+            return MemeCollection.findById(databaseId);
+
+          default:
+            throw new Error(`Unexpected type ${type}`);
+        }
       },
     },
   };
@@ -68,7 +96,7 @@ export const createSchema = (connection: MongooseConnection): GraphQLSchema => {
 
 export const exampleQuery = `
 query CollectionQuery {
-  collection(slug:"lgtmeme") {
+  collection(collectionID:"Y29sbGVjdGlvbjo1YjE3MzEzN2Y0NjE5MjBkMDdhYjA5ZTA=") {
     id
     memes(first:10) {
       edges {

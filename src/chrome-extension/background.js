@@ -1,13 +1,16 @@
 // @flow
 // @format
+
 import ApolloClient, {ApolloQueryResult} from 'apollo-boost';
 import gql from 'graphql-tag';
 import {type Chrome} from './chrome';
-import {type GetCollectionBySlugQuery} from './graphql';
+import {type GetCollectionByIDQuery} from './graphql';
 
 const CollectionQuery = gql`
-  query GetCollectionBySlug {
-    collection(slug: "1") {
+  query GetCollectionByID {
+    collection(
+      collectionID: "Y29sbGVjdGlvbjo1YjE3MzEzN2Y0NjE5MjBkMDdhYjA5ZTA="
+    ) {
       id
       memes(first: 10) {
         edges {
@@ -33,7 +36,7 @@ const CollectionQuery = gql`
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
 });
-const fetch = async (): Promise<ApolloQueryResult<GetCollectionBySlugQuery>> =>
+const fetch = async (): Promise<ApolloQueryResult<GetCollectionByIDQuery>> =>
   client.query({
     query: CollectionQuery,
   });
