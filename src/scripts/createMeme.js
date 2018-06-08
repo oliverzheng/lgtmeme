@@ -4,8 +4,6 @@
 // $ node createMeme.js <collection-name> <path_to_jpg> <macro>
 
 import fs from 'fs';
-import path from 'path';
-import appRoot from 'app-root-path';
 
 import {connect, disconnect, getConnection} from '../server/db';
 import {
@@ -14,14 +12,15 @@ import {
 } from '../server/db/MemeCollection';
 import {getMemeModelForCollection} from '../server/db/Meme';
 import {ImageDoc} from '../server/db/Image';
-import LocalFileStorageConfig from '../server/storage/LocalFileStorageConfig';
-import LocalFileStorage from '../server/storage/LocalFileStorage';
+import S3StorageConfig from '../server/storage/S3StorageConfig';
+import S3Storage from '../server/storage/S3Storage';
 
-const HOST = '127.0.0.1';
-const PORT = LocalFileStorageConfig.SERVER_PORT;
-const DIR = path.join(appRoot.toString(), LocalFileStorageConfig.ROOT_DIR);
-
-const localFileStorage = new LocalFileStorage(DIR, `http://${HOST}:${PORT}`);
+const s3Storage = new S3Storage(
+  S3StorageConfig.BUCKET_NAME,
+  S3StorageConfig.REGION,
+  S3StorageConfig.ACCESS_KEY_ID,
+  S3StorageConfig.SECRET_ACCESS_KEY,
+);
 
 async function getOrCreateSandboxMemeCollection(
   MemeCollection: typeof MemeCollectionDoc,
@@ -61,13 +60,10 @@ async function createMeme(
 
     const newMeme = new Meme();
     newMeme.macro = macro;
-    newMeme.sourceImage = await ImageDoc.uploadImage(
-      localFileStorage,
-      localFilePath,
-    );
+    newMeme.sourceImage = await ImageDoc.uploadImage(s3Storage, localFilePath);
     await newMeme.save();
 
-    const url = await localFileStorage.getFileUrl(newMeme.sourceImage.fileID);
+    const url = await s3Storage.getFileUrl(newMeme.sourceImage.fileID);
     console.log(`Meme saved, accessible at ${url}`);
   } finally {
     await disconnect();

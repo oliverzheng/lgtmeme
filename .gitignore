@@ -68,3 +68,7 @@ schema.json
 
 # Release artifacts
 dist/
+lambdasbuild/
+
+# Test artifacts
+reports/
