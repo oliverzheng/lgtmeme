@@ -15,6 +15,9 @@ MONGODB_DB=lgtmeme
 
 LOCAL_FILE_SERVER_PORT=8000
 LOCAL_FILE_SERVER_ROOT_DIR=files
+
+S3_BUCKET_NAME=sandbox-memes.lgtmeme.com
+S3_REGION=us-west-2
 ```
 
 ### From the terminal
