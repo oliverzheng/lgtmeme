@@ -14,9 +14,9 @@ const createApp = (): $Application => {
     cors({
       origin: (req: ?string, callback) => {
         if (req && req.startsWith('chrome-extension://')) {
-          callback(null, {origin: true});
+          callback(null, true);
         } else {
-          callback(null, {origin: false});
+          callback(null, false);
         }
       },
       methods: ['POST'],
