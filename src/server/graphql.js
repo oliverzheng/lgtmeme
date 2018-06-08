@@ -4,6 +4,7 @@ import fs from 'fs';
 import {GraphQLSchema} from 'graphql';
 import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
 import {makeExecutableSchema} from 'graphql-tools';
+import invariant from 'invariant';
 import {type MongooseConnection} from 'mongoose';
 import path from 'path';
 import {MemeDoc, getMemeModelForCollection} from './db/Meme';
@@ -14,8 +15,6 @@ const typeDefs = fs.readFileSync(
   'utf8',
 );
 
-type MemeFromCollection = {meme: MemeDoc, collection: MemeCollectionDoc};
-
 export const createSchema = (connection: MongooseConnection): GraphQLSchema => {
   const resolvers = {
     Collection: {
@@ -23,22 +22,24 @@ export const createSchema = (connection: MongooseConnection): GraphQLSchema => {
       memes: async (collection: MemeCollectionDoc, args) => {
         const Meme = getMemeModelForCollection(collection);
         const memes = await Meme.find();
-        const memesWithSlug: Array<MemeFromCollection> = memes.map(meme => ({
-          meme,
-          collection,
-        }));
-        return connectionFromArray(memesWithSlug, args);
+        return connectionFromArray(memes, args);
       },
     },
     Image: {
-      height: ({meme}: MemeFromCollection) => meme.sourceImage.height,
-      url: ({meme, collection}: MemeFromCollection) =>
-        `http://localhost:3000/${collection.name}/${meme.sourceImage.fileID}`,
-      width: ({meme}: MemeFromCollection) => meme.sourceImage.width,
+      height: (meme: MemeDoc) => meme.sourceImage.height,
+      url: async (meme: MemeDoc) => {
+        const id = meme.collection.collectionName.replace('Meme_', '');
+        const MemeCollection = getMemeCollection(connection);
+        const collection = await MemeCollection.findById(id);
+        invariant(collection != null, 'Meme collection must be saved already');
+        return `http://localhost:3000/${collection.name}/${
+          meme.sourceImage.fileID
+        }`;
+      },
+      width: (meme: MemeDoc) => meme.sourceImage.width,
     },
     Meme: {
-      image: (memeFromCollection: MemeFromCollection) => memeFromCollection,
-      macro: ({meme}: MemeFromCollection) => meme.macro,
+      image: (meme: MemeDoc) => meme,
     },
     Node: {
       __resolveType: () =>
@@ -48,7 +49,7 @@ export const createSchema = (connection: MongooseConnection): GraphQLSchema => {
     Query: {
       collection: async (_, {slug}) => {
         const MemeCollection = getMemeCollection(connection);
-        const collection = await MemeCollection.findById(slug);
+        const collection = await MemeCollection.findOne({slug});
         return collection;
       },
       node: (_parent, {id}) => {
@@ -67,7 +68,7 @@ export const createSchema = (connection: MongooseConnection): GraphQLSchema => {
 
 export const exampleQuery = `
 query CollectionQuery {
-  collection(slug:"5b173137f461920d07ab09e0") {
+  collection(slug:"lgtmeme") {
     id
     memes(first:10) {
       edges {
