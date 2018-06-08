@@ -8,14 +8,7 @@
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["run", "server:debug"],
-      "env": {
-        "SERVER_PORT": "3000",
-        "MONGODB_HOST": "127.0.0.1",
-        "MONGODB_PORT": "27017",
-        "MONGODB_USER": "mongodb",
-        "MONGODB_PASS": "mongodb",
-        "MONGODB_DB": "lgtmeme"
-      },
+      "envFile": "${workspaceFolder}/.env",
       "preLaunchTask": "yarn:install",
       "port": 9229,
       "internalConsoleOptions": "openOnSessionStart"
