@@ -5,9 +5,11 @@ import cors from 'cors';
 import express, {type $Application} from 'express';
 import bodyParser from 'body-parser';
 import {graphiqlExpress, graphqlExpress} from 'apollo-server-express';
-import {exampleQuery, schema} from './graphql';
+import {type MongooseConnection} from 'mongoose';
+import {createSchema, exampleQuery} from './graphql';
 
-const createApp = (): $Application => {
+const createApp = (connection: MongooseConnection): $Application => {
+  const schema = createSchema(connection);
   const app = express();
 
   app.use(
