@@ -6,10 +6,15 @@ import express, {type $Application} from 'express';
 import bodyParser from 'body-parser';
 import {graphiqlExpress, graphqlExpress} from 'apollo-server-express';
 import {type MongooseConnection} from 'mongoose';
+
+import {type Storage} from './storage';
 import {createSchema, exampleQuery} from './graphql';
 
-const createApp = (connection: MongooseConnection): $Application => {
-  const schema = createSchema(connection);
+const createApp = (
+  connection: MongooseConnection,
+  storage: Storage,
+): $Application => {
+  const schema = createSchema(connection, storage);
   const app = express();
 
   app.use(

@@ -2,7 +2,7 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type GetCollectionBySlugQuery = {|
+export type GetCollectionByIDQuery = {|
   // Find a collection by its URL segment.
   collection: ?{|
     __typename: 'Collection',

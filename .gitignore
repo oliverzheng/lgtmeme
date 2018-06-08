@@ -72,3 +72,4 @@ lambdasbuild/
 
 # Test artifacts
 reports/
+junit.xml
