@@ -2,20 +2,27 @@
 // @format
 import '@babel/polyfill';
 import {graphqlLambda} from 'apollo-server-lambda';
-import mongoose from 'mongoose';
+import type {APIGatewayEvent, Context, ProxyCallback} from 'flow-aws-lambda';
 import {connect} from '../db';
 import {createSchema} from '../graphql';
-import S3Storage from '../storage/S3Storage';
-import S3StorageConfig from '../storage/S3StorageConfig';
+import s3Storage from '../storage/__mocks__/mockStorage'; // FIXME: Webpack load error of missing module require("domain")
 
-const s3Storage = new S3Storage(
-  S3StorageConfig.BUCKET_NAME,
-  S3StorageConfig.REGION,
-  S3StorageConfig.ACCESS_KEY_ID,
-  S3StorageConfig.SECRET_ACCESS_KEY,
-);
+export async function handler(
+  event: APIGatewayEvent,
+  context: Context,
+  callback: ProxyCallback,
+) {
+  const connection = await connect();
+  const schema = createSchema(connection, s3Storage);
 
-connect();
-const schema = createSchema(mongoose.connection, s3Storage);
-const handler = graphqlLambda({schema});
-export {handler};
+  const requestOrigin = event.headers.origin;
+  const callbackFilter = (error, output) => {
+    if (requestOrigin && requestOrigin.startsWith('chrome-extension://')) {
+      const {headers} = output;
+      headers['Access-Control-Allow-Origin'] = requestOrigin;
+    }
+    callback(error, output);
+  };
+  const graphqlHandler = graphqlLambda({schema});
+  return graphqlHandler(event, context, callbackFilter);
+}
