@@ -1,6 +1,6 @@
 // @flow
 // @format
-
+import appRootPath from 'app-root-path';
 import fs from 'fs';
 import {GraphQLSchema} from 'graphql';
 import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
@@ -18,7 +18,7 @@ import {
 } from './db/MemeCollection';
 
 const typeDefs = fs.readFileSync(
-  path.resolve(process.cwd(), 'src', 'schema.graphql'),
+  path.resolve(appRootPath, 'src', 'schema.graphql'),
   'utf8',
 );
 
