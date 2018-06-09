@@ -59,6 +59,7 @@ export const createSchema = (
       },
     },
     Query: {
+      herro: () => 'Herro world!',
       collection: async (_, {collectionID}) => {
         const {id} = fromGlobalId(collectionID);
         return MemeCollection.findById(id);
