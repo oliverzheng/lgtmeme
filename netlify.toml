@@ -1,5 +1,3 @@
 [build]
 command = "yarn build:lambdas"
 functions = "lambdasbuild"
-[build.environment]
-AWS_LAMBDA_JS_RUNTIME = "nodejs10.3"
