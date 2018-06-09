@@ -1,11 +1,16 @@
 // @flow
 // @format
+
+import {config} from 'dotenv';
+
 import '@babel/polyfill';
 import {graphqlLambda} from 'apollo-server-lambda';
 import type {APIGatewayEvent, Context, ProxyCallback} from 'flow-aws-lambda';
 import {connect} from '../db';
 import {createSchema} from '../graphql';
-import s3Storage from '../storage/__mocks__/mockStorage'; // FIXME: Webpack load error of missing module require("domain")
+import s3Storage from '../storage/__mocks__/mockStorage';
+
+config(); // FIXME: Webpack load error of missing module require("domain")
 
 export async function handler(
   event: APIGatewayEvent,
