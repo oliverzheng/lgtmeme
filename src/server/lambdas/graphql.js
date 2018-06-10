@@ -6,7 +6,20 @@ import {graphqlLambda} from 'apollo-server-lambda';
 import type {APIGatewayEvent, Context} from 'flow-aws-lambda';
 import {connect, disconnect} from '../db';
 import {createSchema} from '../graphql';
-import s3Storage from '../storage/__mocks__/mockStorage'; // FIXME: Webpack load error of missing module require("domain")
+import S3Storage from '../storage/S3Storage';
+import {
+  S3_BUCKET_NAME,
+  S3_REGION,
+  S3_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY,
+} from '../env';
+
+const s3Storage = new S3Storage(
+  S3_BUCKET_NAME,
+  S3_REGION,
+  S3_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY,
+);
 
 export async function handler(event: APIGatewayEvent, context: Context) {
   const connection = await connect();
