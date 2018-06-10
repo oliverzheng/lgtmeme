@@ -64,7 +64,7 @@
     "mongodb": "^3.1.0-beta4",
     "mongoose": "^4.13",
     "nullthrows": "^1.0.1",
-    "s3-node-client": "^4.4.3",
+    "s3-node-client": "https://github.com/oliverzheng/node-s3-client",
     "tmp": "^0.0.33",
     "uuid": "^3.2.1"
   },
