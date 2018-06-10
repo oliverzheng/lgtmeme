@@ -12,14 +12,19 @@ import {
 } from '../server/db/MemeCollection';
 import {getMemeModelForCollection} from '../server/db/Meme';
 import {ImageDoc} from '../server/db/Image';
-import S3StorageConfig from '../server/storage/S3StorageConfig';
 import S3Storage from '../server/storage/S3Storage';
+import {
+  S3_BUCKET_NAME,
+  S3_REGION,
+  S3_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY,
+} from '../server/env';
 
 const s3Storage = new S3Storage(
-  S3StorageConfig.BUCKET_NAME,
-  S3StorageConfig.REGION,
-  S3StorageConfig.ACCESS_KEY_ID,
-  S3StorageConfig.SECRET_ACCESS_KEY,
+  S3_BUCKET_NAME,
+  S3_REGION,
+  S3_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY,
 );
 
 async function getOrCreateSandboxMemeCollection(
