@@ -1,15 +1,14 @@
 // @flow
 // @format
 
+import {config} from 'dotenv';
+
 import fs from 'fs';
 import nullthrows from 'nullthrows';
 
-const envFilepath = `${__dirname}/../../.env`;
+config();
 
-if (fs.existsSync(envFilepath)) {
-  console.log('.env file already exists. Exiting.');
-  process.exit(0);
-}
+const envFilepath = `${__dirname}/../server/env.json`;
 
 const ENV_VARS_TO_EXPORT = [
   'MONGODB_HOST',
@@ -29,9 +28,10 @@ const envVarsToExport = ENV_VARS_TO_EXPORT.filter(
 
 console.log(`Exporting environment variables: ${envVarsToExport.join(', ')}`);
 
-const fileToWrite = envVarsToExport
-  .map(varName => `${varName}=${nullthrows(process.env[varName])}`)
-  .join('\n');
+const jsonToWrite = envVarsToExport.reduce((acc, varName) => {
+  acc[varName] = nullthrows(process.env[varName]);
+  return acc;
+}, {});
 
-fs.writeFileSync(envFilepath, fileToWrite);
-console.log('Wrote to .env.');
+fs.writeFileSync(envFilepath, JSON.stringify(jsonToWrite, null, '  '));
+console.log(`Wrote to ${envFilepath}`);
