@@ -1,19 +1,27 @@
 // @flow
 // @format
+
 import '@babel/polyfill';
+import {type MongooseConnection} from 'mongoose';
 import {graphqlLambda} from 'apollo-server-lambda';
 import type {APIGatewayEvent, Context, ProxyCallback} from 'flow-aws-lambda';
 import {connect} from '../db';
 import {createSchema} from '../graphql';
 import s3Storage from '../storage/__mocks__/mockStorage'; // FIXME: Webpack load error of missing module require("domain")
 
-export async function handler(
+let connection: ?MongooseConnection = null;
+const connectPromise: Promise<MongooseConnection> = (async () => {
+  connection = await connect();
+  return connection;
+})();
+
+async function handleRequest(
+  conn: MongooseConnection,
   event: APIGatewayEvent,
   context: Context,
   callback: ProxyCallback,
 ) {
-  const connection = await connect();
-  const schema = createSchema(connection, s3Storage);
+  const schema = createSchema(conn, s3Storage);
 
   const requestOrigin = event.headers.origin;
   const callbackFilter = (error, output) => {
@@ -25,4 +33,16 @@ export async function handler(
   };
   const graphqlHandler = graphqlLambda({schema});
   return graphqlHandler(event, context, callbackFilter);
+}
+
+export function handler(
+  event: APIGatewayEvent,
+  context: Context,
+  callback: ProxyCallback,
+) {
+  if (connection) {
+    handleRequest(connection, event, context, callback);
+  } else {
+    connectPromise.then(conn => handleRequest(conn, event, context, callback));
+  }
 }
