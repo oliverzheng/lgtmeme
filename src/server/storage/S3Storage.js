@@ -3,7 +3,7 @@
 
 import path from 'path';
 import uuidv4 from 'uuid/v4';
-import s3 from 's3';
+import s3 from 's3-node-client';
 
 import {
   ALLOWED_EXTENSIONS,
