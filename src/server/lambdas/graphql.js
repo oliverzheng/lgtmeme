@@ -15,13 +15,15 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   const requestOrigin = event.headers.origin;
 
   let returnValue = null;
+  let returnError = null;
   const callbackFilter = (error, output) => {
     // This gets called before graphqlHandler() resolves
     if (requestOrigin && requestOrigin.startsWith('chrome-extension://')) {
       const {headers} = output;
       headers['Access-Control-Allow-Origin'] = requestOrigin;
     }
-    returnValue = error || output;
+    returnError = error;
+    returnValue = output;
   };
   const graphqlHandler = graphqlLambda({schema});
   await graphqlHandler(event, context, callbackFilter);
@@ -30,5 +32,8 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   // think we aren't done, and not return the request.
   await disconnect();
 
+  if (returnError) {
+    throw returnError;
+  }
   return returnValue;
 }
