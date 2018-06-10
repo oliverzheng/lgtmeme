@@ -10,6 +10,8 @@ export function handler(
 ) {
   callback(null, {
     statusCode: 200,
-    body: JSON.stringify({msg: 'Herro, World!'}),
+    body: JSON.stringify({
+      msg: 'Herro, World!',
+    }),
   });
 }

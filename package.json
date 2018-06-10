@@ -9,7 +9,7 @@
   "scripts": {
     "build:chrome": "webpack --config chrome.webpack.config.js",
     "build:graphql": "apollo-codegen introspect-schema ./src/schema.graphql --output schema.json && apollo-codegen generate ./src/chrome-extension/**/*.js --schema schema.json --target flow --add-typename --output ./src/chrome-extension/graphql.js && prettier-eslint 'src/**/graphql.js' --prettier-last --write",
-    "build:lambdas": "netlify-lambda build src/server/lambdas/",
+    "build:lambdas": "./src/scripts/replaceNetlifyEnvVariables.sh && netlify-lambda build src/server/lambdas/",
     "precommit": "flow && lint-staged",
     "flow:watch": "flow-watch",
     "format": "prettier-eslint 'src/**/*.js' --prettier-last --write",
@@ -81,6 +81,7 @@
     "babel-eslint": "^8.2.3",
     "babel-jest": "^23.0.1",
     "babel-loader": "^8.0.0-beta",
+    "babel-plugin-inline-import": "^3.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",

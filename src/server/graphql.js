@@ -1,12 +1,10 @@
 // @flow
 // @format
 
-import fs from 'fs';
 import {GraphQLSchema} from 'graphql';
 import {connectionFromArray, fromGlobalId, globalIdField} from 'graphql-relay';
 import {makeExecutableSchema} from 'graphql-tools';
 import {type MongooseConnection} from 'mongoose';
-import path from 'path';
 
 import {type Storage} from './storage';
 import {ImageDoc} from './db/Image';
@@ -16,11 +14,8 @@ import {
   MemeCollectionDoc,
   getMemeCollection,
 } from './db/MemeCollection';
-
-const typeDefs = fs.readFileSync(
-  path.resolve(process.cwd(), 'src', 'schema.graphql'),
-  'utf8',
-);
+// $FlowFixMe
+import typeDefs from '../schema.graphql';
 
 export const createSchema = (
   connection: MongooseConnection,
@@ -59,6 +54,7 @@ export const createSchema = (
       },
     },
     Query: {
+      herro: () => 'Herro world!',
       collection: async (_, {collectionID}) => {
         const {id} = fromGlobalId(collectionID);
         return MemeCollection.findById(id);
