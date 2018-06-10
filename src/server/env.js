@@ -8,7 +8,7 @@ import envJSON from './env.json';
 
 config();
 
-export const SERVER_PORT: string = nullthrows(process.env.SERVER_PORT);
+export const {DEBUG_SERVER_PORT} = process.env;
 
 export const MONGODB_HOST: string =
   envJSON.MONGODB_HOST || nullthrows(process.env.MONGODB_HOST);

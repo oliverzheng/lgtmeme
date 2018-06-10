@@ -1,11 +1,13 @@
 // @flow
 // @format
 
+import nullthrows from 'nullthrows';
+
 import {connect, urlWithoutPassword} from './db';
 import createApp from './app';
 import S3Storage from './storage/S3Storage';
 import {
-  SERVER_PORT,
+  DEBUG_SERVER_PORT,
   S3_BUCKET_NAME,
   S3_REGION,
   S3_ACCESS_KEY_ID,
@@ -26,8 +28,8 @@ async function start() {
   console.log(`Connected to MongoDB at ${urlWithoutPassword}`); // eslint-disable-line no-console
 
   createApp(connection, s3Storage).listen(
-    SERVER_PORT,
-    () => console.log(`Listening on ${SERVER_PORT}.`), // eslint-disable-line no-console
+    nullthrows(DEBUG_SERVER_PORT),
+    () => console.log(`Listening on ${nullthrows(DEBUG_SERVER_PORT)}.`), // eslint-disable-line no-console
   );
 }
 
