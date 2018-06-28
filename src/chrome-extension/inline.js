@@ -29,7 +29,7 @@ const memeCollection = {
 
 const macroMatcher = new RegExp(
   Object.keys(memeCollection)
-    .map(m => `\\b${m}\\b`)
+    .map(m => `(?!<p>|<br>)${m}(?=<\\/p>|<br>)`)
     .join('|'),
   'gi',
 );
@@ -46,7 +46,7 @@ if (document.body) {
       macro =>
         `<img src='${
           memeCollection[macro.trim().toUpperCase()].image.url
-        }' title='${macro}' style='display: inline-block; height:40px' />`,
+        }' title='${macro}' style='display: block; width:50%; margin-left: auto; margin-right: auto; margin-top: 8px; margin-bottom: 8px' />`,
     );
   });
 }
