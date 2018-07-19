@@ -1,5 +1,7 @@
 // @flow
 // @format
+import nullthrows from 'nullthrows';
+
 import {type Chrome} from './chrome';
 import {type GetCollectionByIDQuery} from './graphql';
 
@@ -53,3 +55,13 @@ chrome.runtime.sendMessage({text: 'hello'}, response => {
   const responseData: GetCollectionByIDQuery = response.data;
   document.title = JSON.stringify(responseData);
 });
+
+// We need to execute JS within the context of the page. The only way to do so
+// is to embed a <script> tag explicitly.
+// https://stackoverflow.com/questions/9602022/chrome-extension-retrieving-global-variable-from-webpage/9636008#9636008
+const s = document.createElement('script');
+s.src = chrome.extension.getURL('inlineScript.bundle.js');
+s.onload = function onLoad() {
+  this.remove();
+};
+nullthrows(document.head).appendChild(s);
