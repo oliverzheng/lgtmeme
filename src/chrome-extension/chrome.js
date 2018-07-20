@@ -50,4 +50,5 @@ export type Runtime = {
 export type Chrome = {
   declarativeContent: DeclarativeContent,
   runtime: Runtime,
+  extension: Object,
 };

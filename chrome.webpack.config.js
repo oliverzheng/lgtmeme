@@ -15,6 +15,7 @@ module.exports = {
   entry: {
     background: ['babel-polyfill', './src/chrome-extension/background.js'],
     inline: ['babel-polyfill', './src/chrome-extension/inline.js'],
+    inlineScript: ['babel-polyfill', './src/chrome-extension/inlineScript.js'],
     popup: ['babel-polyfill', './src/chrome-extension/popup.js'],
   },
   module: {
