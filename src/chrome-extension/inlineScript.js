@@ -3,6 +3,25 @@
 
 import window from 'global/window';
 
+function cloneFormDataWithNewValue(
+  oldFormData: FormData,
+  transform: (key: string, value: string) => ?string,
+): FormData {
+  const newFormData = new window.FormData();
+  Array.from(oldFormData.entries()).forEach(entry => {
+    const key = entry[0];
+    let value = entry[1];
+    if (typeof value === 'string') {
+      const newValue = transform(key, value);
+      if (newValue != null) {
+        value = newValue;
+      }
+    }
+    newFormData.append(key, value);
+  });
+  return newFormData;
+}
+
 const replaceHerpWithDerpInNewComments = (args: Array<mixed>) => {
   if (args.length !== 2) {
     return null;
@@ -24,14 +43,11 @@ const replaceHerpWithDerpInNewComments = (args: Array<mixed>) => {
   }
 
   const newParams = {...params};
-  const newFormData = new window.FormData();
-  Array.from(oldFormData.entries()).forEach(entry => {
-    const key = entry[0];
-    let value = entry[1];
+  const newFormData = cloneFormDataWithNewValue(oldFormData, (key, value) => {
     if (key === 'comment[body]') {
-      value = value.replace(/\bhello\b/g, 'herro');
+      return value.replace(/\bhello\b/g, 'herro');
     }
-    newFormData.append(key, value);
+    return null;
   });
   newParams.body = newFormData;
   return [url, newParams];
