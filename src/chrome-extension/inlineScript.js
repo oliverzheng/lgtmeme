@@ -22,7 +22,7 @@ function cloneFormDataWithNewValue(
   return newFormData;
 }
 
-const replaceHerpWithDerpInNewComments = (args: Array<mixed>) => {
+async function replaceHelloWithHerroInNewComments(args: Array<mixed>) {
   if (args.length !== 2) {
     return null;
   }
@@ -51,21 +51,25 @@ const replaceHerpWithDerpInNewComments = (args: Array<mixed>) => {
   });
   newParams.body = newFormData;
   return [url, newParams];
-};
+}
 
-const ajaxHooks = [replaceHerpWithDerpInNewComments];
+const ajaxHooks = [replaceHelloWithHerroInNewComments];
 
 const windowFetch = window.fetch;
-function customFetch(...args) {
+async function customFetch(...args) {
   // Uncomment below to debug what goes through ajax
   // console.log(arguments);
   let newArguments = args;
-  ajaxHooks.forEach(ajaxHook => {
-    const ajaxArguments = ajaxHook(newArguments);
+  // Only 1 ajax hook should execute
+  for (const ajaxHook of ajaxHooks) {
+    // On purpose await for the first non-null response in loop
+    // eslint-disable-next-line no-await-in-loop
+    const ajaxArguments = await ajaxHook(newArguments);
     if (ajaxArguments) {
       newArguments = ajaxArguments;
+      break;
     }
-  });
+  }
   return windowFetch.apply(this, newArguments);
 }
 window.fetch = customFetch;
