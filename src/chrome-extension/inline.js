@@ -29,25 +29,27 @@ const memeCollection = {
   },
 };
 
-const macroMatcher = new RegExp(Object.keys(memeCollection).join('|'), 'gi');
-
-function keyEventHandler(event) {
-  const element = event.target;
-  element.value = element.value.replace(
-    macroMatcher,
-    macro => `![](${memeCollection[macro.trim().toUpperCase()].image.url})`,
-  );
-}
+const macroMatcher = new RegExp(
+  Object.keys(memeCollection)
+    .map(m => `(?!<p>|<br>)${m}(?=<\\/p>|<br>)`)
+    .join('|'),
+  'gi',
+);
 
 if (document.body) {
   document.body.style.background = // eslint-disable-line no-param-reassign
     'url(https://user-images.githubusercontent.com/526858/40891491-753b1a1c-673b-11e8-818f-1f6045779700.png)';
 
-  const els = document.querySelectorAll('textarea.comment-form-textarea');
-
+  const els = document.querySelectorAll('.comment-body');
   els.forEach(el => {
     const element = el;
-    element.onkeyup = keyEventHandler;
+    element.innerHTML = element.innerHTML.replace(
+      macroMatcher,
+      macro =>
+        `<img src='${
+          memeCollection[macro.trim().toUpperCase()].image.url
+        }' title='${macro}' style='display: block; width:50%; margin-left: auto; margin-right: auto; margin-top: 8px; margin-bottom: 8px' />`,
+    );
   });
 }
 
